@@ -5,8 +5,8 @@ import { GetLastGames } from "../services/GetLastGames.service";
 export class GetLastGamesController implements ControllerCommand {
     async handle(request: Request, response: Response) {
         const getLastGames = new GetLastGames()
-        await getLastGames.execute()
-
-        return response.status(200).send()
+        const lastGames = await getLastGames.execute()
+        
+        return response.json(lastGames)
     }
 }
