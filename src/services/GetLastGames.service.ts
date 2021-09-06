@@ -14,7 +14,6 @@ export class GetLastGames implements ServiceCommand {
         const page = await browser.newPage()
         await page.goto('https://www.flashscore.com.br/equipe/flamengo/WjxY29qB/resultados/')
         
-    
         const competitions = await page.evaluate(() => {
             return Array.from(document.querySelectorAll('.event__title--name'), e => e.textContent)
         })
@@ -47,7 +46,7 @@ export class GetLastGames implements ServiceCommand {
             }
             lastGames.push(game)
         }
-        browser.close()
+        
         return lastGames
     }
 }
