@@ -13,7 +13,7 @@ app.use(cors())
 
 app.use(express.json())
 
-app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+// app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 app.use(router)
 
 logger.info('Running Jobs')
