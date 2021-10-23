@@ -1,0 +1,93 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Flamengo - API",
+        "description": "API que retorna informações sobre o Clube de Regatas do Flamengo.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://flamengo-api.herokuapp.com/api"
+        }
+    ],
+    "paths": {
+        "/lastGames": {
+            "get": {
+                "summary": "Listar últimos jogos",
+                "description": "Função responsável por retornar os últimos 10 jogos do Flamengo.",
+                "tags": ["Jogos"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "competition": {
+                                            "type": "string"
+                                        },
+                                        "home": {
+                                            "type": "string"
+                                        },
+                                        "score_home": {
+                                            "type": "number"
+                                        },
+                                        "score_away": {
+                                            "type": "number"
+                                        },
+                                        "away": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            } 
+        },
+        "/nextGames": {
+            "get": {
+                "summary": "Listar próximos jogos",
+                "description": "Função responsável por retornar os 10 próximos jogos do Flamengo.",
+                "tags": ["Jogos"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "competition": {
+                                            "type": "string"
+                                        },
+                                        "home": {
+                                            "type": "string"
+                                        },
+                                        "away": {
+                                            "type": "string"
+                                        },
+                                        "date": {
+                                            "type": "string"
+                                        },
+                                        "time": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            } 
+        }
+    }
+}

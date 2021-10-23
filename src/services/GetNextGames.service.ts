@@ -1,28 +1,41 @@
 import { NextGames, ServiceCommand } from "../interfaces";
-import { WriteJson } from "../utils";
+import { logger, WriteJson } from "../utils";
 import puppeteer from 'puppeteer'
 
 
 export class GetNextGames implements ServiceCommand {
-    async execute(): Promise<any> {
-        const writeJson = new WriteJson()
-        const nextGames = await this.scrape().then((value) => {
-            return value
-        })
+    async execute(): Promise<void> {
+        logger.info("Running function to list the next games.")
+        try {
+            const writeJson = new WriteJson()
 
-        const data = {
-            "lastUpdate": new Date().toLocaleDateString(),
-            "games": nextGames
+            logger.info('Starting scrap the page')
+            const nextGames = await this.scrape().then((value) => {
+                return value
+            })
+
+            const data = {
+                "lastUpdate": new Date().toLocaleDateString(),
+                "games": nextGames
+            }
+            
+            logger.info('Writing JSON')
+            await writeJson.execute(data, "src/data/NextGames.json")
+        } catch (error) {
+            logger.error(`Error in "GetNextGames": ${error}`)
         }
         
-        await writeJson.execute(data, "src/data/NextGames.json")
     }
 
     private scrape = async () => {
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
-        await page.goto('https://www.ogol.com.br/team_fixtures.php?id=2240&epoca_id=150')
 
+        const url = 'https://www.ogol.com.br/team_fixtures.php?id=2240&epoca_id=150'
+        logger.info(`Accessing: ${url}`)
+        await page.goto(url)
+
+        logger.info('Get competitions')
         const competitions = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td.text'), e => e.textContent)
             return array.filter((value, index) => {
@@ -32,6 +45,7 @@ export class GetNextGames implements ServiceCommand {
             })
         })
 
+        logger.info('Get teams')
         const teams = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td.text'), e => e.textContent)
             return array.filter((value, index) => {
@@ -41,7 +55,8 @@ export class GetNextGames implements ServiceCommand {
             })
         })
 
-        const date = await page.evaluate(() => {
+        logger.info('Get dates')
+        const dates = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td.double'), e => e.textContent)
             return array.filter((value, index) => {
                 if (index % 2 === 0) {
@@ -50,7 +65,8 @@ export class GetNextGames implements ServiceCommand {
             })
         })
 
-        const time = await page.evaluate(() => {
+        logger.info('Get times')
+        const times = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td'), e => e.textContent)
             return array.filter((value) => {
                 if (value.includes(':')) {
@@ -59,6 +75,7 @@ export class GetNextGames implements ServiceCommand {
             })
         })
 
+        logger.info('Get fields')
         const field = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td'), e => e.textContent)
             return array.filter((value, index) => {
@@ -70,6 +87,7 @@ export class GetNextGames implements ServiceCommand {
             })
         })
 
+        logger.info('Get results')
         const result = await page.evaluate(() => {
             return Array.from(document.querySelectorAll('tr.parent>td.result'), e => e.textContent)
         })
@@ -93,8 +111,8 @@ export class GetNextGames implements ServiceCommand {
                     competition: competitions[index],
                     home: home,
                     away: away,
-                    date: date[index],
-                    time: time[index]
+                    date: dates[index],
+                    time: times[index]
                 }
 
                 if (!competitions[index]) { break }

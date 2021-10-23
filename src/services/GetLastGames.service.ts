@@ -1,28 +1,39 @@
 import puppeteer from 'puppeteer'
 import { LastGames, ServiceCommand } from "../interfaces";
-import { WriteJson } from "../utils";
+import { logger, WriteJson } from "../utils";
 
 export class GetLastGames implements ServiceCommand {
     async execute(): Promise<void> {
-        const writeJson = new WriteJson()
+        logger.info("Running function to list the last games.")
+        try {
+            const writeJson = new WriteJson()
+            
+            logger.info('Starting scrap the page')
+            const lastGames = await this.scrape().then((value) => {
+                return value
+            })
+            
+            const data = {
+                "lastUpdate": new Date().toLocaleDateString(),
+                "games": lastGames
+            }
 
-        const lastGames = await this.scrape().then((value) => {
-            return value
-        })
-        
-        const data = {
-            "lastUpdate": new Date().toLocaleDateString(),
-            "games": lastGames
+            logger.info('Writing JSON')
+            await writeJson.execute(data, "src/data/LastGames.json")
+        } catch (error) {
+            logger.error(`Error in "GetLastGames": ${error}`)
         }
-
-        await writeJson.execute(data, "src/data/LastGames.json")
     }
 
     private scrape = async () => {
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
-        await page.goto('https://www.ogol.com.br/team_results.php?id=2240&epoca_id=150')
+        
+        const url = 'https://www.ogol.com.br/team_results.php?id=2240&epoca_id=150'
+        logger.info(`Accessing: ${url}`)
+        await page.goto(url)
 
+        logger.info('Get competitions')
         const competitions = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td.text'), e => e.textContent)
             return array.filter((value, index) => {
@@ -32,6 +43,7 @@ export class GetLastGames implements ServiceCommand {
             })
         })
 
+        logger.info('Get teams')
         const teams = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td.text'), e => e.textContent)
             return array.filter((value, index) => {
@@ -41,11 +53,13 @@ export class GetLastGames implements ServiceCommand {
             })
         })
 
-        const result = await page.evaluate(() => {
+        logger.info('Get results')
+        const results = await page.evaluate(() => {
             return Array.from(document.querySelectorAll('tr.parent>td.result'), e => e.textContent)
         })
 
-        const field = await page.evaluate(() => {
+        logger.info('Get fields')
+        const fields = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td'), e => e.textContent)
             return array.filter((value, index) => {
                 if (value.includes("(")) {
@@ -56,17 +70,17 @@ export class GetLastGames implements ServiceCommand {
             })
         })
         
-        const lastGames: LastGames[] = [];
 
+        const lastGames: LastGames[] = [];
         for (let index = 0; index < 10; index++) {
-            let score = result[index].split('-')
+            let score = results[index].split('-')
 
             let home: string
             let away: string
-            if (field[index] === '(F)') {
+            if (fields[index] === '(F)') {
                 home = teams[index]
                 away = 'Flamengo'
-            } else if (field[index] === '(C)' || field[index] === "") {
+            } else if (fields[index] === '(C)' || fields[index] === "") {
                 away = teams[index]
                 home = 'Flamengo'
             }
@@ -80,7 +94,6 @@ export class GetLastGames implements ServiceCommand {
             }
             lastGames.push(game)
         }
-        
         return lastGames
     }
 }
