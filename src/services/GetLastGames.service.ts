@@ -47,11 +47,11 @@ export class GetLastGames implements ServiceCommand {
 
         const field = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td'), e => e.textContent)
-            return array.filter((value) => {
-                if (value.includes('(')) {
+            return array.filter((value, index) => {
+                if (value.includes("(")) {
                     return value
-                } else if (value === "") {
-                    return value
+                } else if (value === '' && array[index + 4] === 'F') {
+                    return " "
                 }
             })
         })
