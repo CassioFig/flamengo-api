@@ -8,6 +8,6 @@ export class GetNextGamesController implements ControllerCommand {
         const readJson = new ReadJson()
         const lastGames = await readJson.execute("src/data/NextGames.json")
 
-        response.json(lastGames)
+        response.json(lastGames['games'])
     }
 }
