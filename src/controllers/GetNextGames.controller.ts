@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { ControllerCommand } from "../interfaces";
-import { GetNextGames } from "../services";
 import { ReadJson } from "../utils";
 
 export class GetNextGamesController implements ControllerCommand {
