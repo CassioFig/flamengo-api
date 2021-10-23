@@ -50,6 +50,8 @@ export class GetLastGames implements ServiceCommand {
             return array.filter((value) => {
                 if (value.includes('(')) {
                     return value
+                } else if (value === "") {
+                    return value
                 }
             })
         })
@@ -59,12 +61,22 @@ export class GetLastGames implements ServiceCommand {
         for (let index = 0; index < 10; index++) {
             let score = result[index].split('-')
 
+            let home: string
+            let away: string
+            if (field[index] === '(F)') {
+                home = teams[index]
+                away = 'Flamengo'
+            } else if (field[index] === '(C)' || field[index] === "") {
+                away = teams[index]
+                home = 'Flamengo'
+            }
+
             let game: LastGames = {
                 competition: competitions[index],
-                home: field[index] === '(F)' ? teams[index] : 'Flamengo',
+                home: home,
                 score_home: parseInt(score[0]),
                 score_away: parseInt(score[1]),
-                away: field[index] === '(C)' ? teams[index] : 'Flamengo'
+                away: away
             }
             lastGames.push(game)
         }
