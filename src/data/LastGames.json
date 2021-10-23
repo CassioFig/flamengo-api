@@ -1,71 +1,71 @@
 {
-    "lastUpdate": "22/10/2021",
+    "lastUpdate": "23/10/2021",
     "games": [
         {
-            "competition": "Copa do Brasil",
-            "home": "Athletico-PR",
+            "competition": "Copa do Brasil 2021",
+            "home": "Athletico Paranaense",
             "score_home": 2,
             "score_away": 2,
             "away": "Flamengo"
         },
         {
-            "competition": "Série A",
+            "competition": "Brasileirão 2021",
             "home": "Flamengo",
             "score_home": 0,
             "score_away": 0,
             "away": "Cuiabá"
         },
         {
-            "competition": "Copa Libertadores - Playoffs",
+            "competition": "Brasileirão 2021",
             "home": "Flamengo",
             "score_home": 3,
             "score_away": 1,
             "away": "Juventude"
         },
         {
-            "competition": "Série A",
+            "competition": "Brasileirão 2021",
             "home": "Fortaleza",
             "score_home": 0,
             "score_away": 3,
             "away": "Flamengo"
         },
         {
-            "competition": "Copa Libertadores - Playoffs",
+            "competition": "Brasileirão 2021",
             "home": "Red Bull Bragantino",
             "score_home": 1,
             "score_away": 1,
             "away": "Flamengo"
         },
         {
-            "competition": "Série A",
+            "competition": "Brasileirão 2021",
             "home": "Flamengo",
             "score_home": 3,
             "score_away": 0,
-            "away": "Athletico-PR"
+            "away": "Athletico Paranaense"
         },
         {
-            "competition": "Copa do Brasil",
-            "home": "Barcelona SC (Ecu)",
+            "competition": "Libertadores 2021",
+            "home": "Barcelona SC",
             "score_home": 0,
             "score_away": 2,
-            "away": "Flamengo (Bra)"
+            "away": "Flamengo"
         },
         {
-            "competition": "Série A",
-            "home": "América-MG",
+            "competition": "Brasileirão 2021",
+            "home": "América Mineiro",
             "score_home": 1,
             "score_away": 1,
             "away": "Flamengo"
         },
         {
-            "competition": "Copa do Brasil",
-            "home": "Flamengo (Bra)",
+            "competition": "Libertadores 2021",
+            "home": "Flamengo",
             "score_home": 2,
             "score_away": 0,
-            "away": "Barcelona SC (Ecu)"
+            "away": "Barcelona SC"
         },
         {
-            "competition": "Série A",
+            "competition": "Brasileirão 2021",
             "home": "Flamengo",
             "score_home": 0,
             "score_away": 1,

@@ -1,7 +1,6 @@
-import { ServiceCommand } from "../interfaces/Command";
 import puppeteer from 'puppeteer'
-import { LastGames } from "../interfaces/LastGames";
-import { WriteJson } from "../utils/WriteJson";
+import { LastGames, ServiceCommand } from "../interfaces";
+import { WriteJson } from "../utils";
 
 export class GetLastGames implements ServiceCommand {
     async execute(): Promise<void> {
@@ -22,37 +21,50 @@ export class GetLastGames implements ServiceCommand {
     private scrape = async () => {
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
-        await page.goto('https://www.flashscore.com.br/equipe/flamengo/WjxY29qB/resultados/')
-        
+        await page.goto('https://www.ogol.com.br/team_results.php?id=2240&epoca_id=150')
+
         const competitions = await page.evaluate(() => {
-            return Array.from(document.querySelectorAll('.event__title--name'), e => e.textContent)
+            const array = Array.from(document.querySelectorAll('tr.parent>td.text'), e => e.textContent)
+            return array.filter((value, index) => {
+                if (index % 2 !== 0) {
+                    return value
+                }
+            })
         })
 
-        const teams_home = await page.evaluate(() => {
-            return Array.from(document.querySelectorAll('.event__participant--home'), e => e.textContent)
+        const teams = await page.evaluate(() => {
+            const array = Array.from(document.querySelectorAll('tr.parent>td.text'), e => e.textContent)
+            return array.filter((value, index) => {
+                if (index % 2 === 0) {
+                    return value
+                }
+            })
         })
 
-        const scores_home = await page.evaluate(() => {
-            return Array.from(document.querySelectorAll('.event__score--home'), e => e.textContent)
+        const result = await page.evaluate(() => {
+            return Array.from(document.querySelectorAll('tr.parent>td.result'), e => e.textContent)
         })
 
-        const scores_away = await page.evaluate(() => {
-            return Array.from(document.querySelectorAll('.event__score--away'), e => e.textContent)
-        })
-
-        const teams_away = await page.evaluate(() => {
-            return Array.from(document.querySelectorAll('.event__participant--away'), e => e.textContent)
+        const field = await page.evaluate(() => {
+            const array = Array.from(document.querySelectorAll('tr.parent>td'), e => e.textContent)
+            return array.filter((value) => {
+                if (value.includes('(')) {
+                    return value
+                }
+            })
         })
         
         const lastGames: LastGames[] = [];
 
         for (let index = 0; index < 10; index++) {
+            let score = result[index].split('-')
+
             let game: LastGames = {
                 competition: competitions[index],
-                home: teams_home[index],
-                score_home: parseInt(scores_home[index]),
-                score_away: parseInt(scores_away[index]),
-                away: teams_away[index]
+                home: field[index] === '(F)' ? teams[index] : 'Flamengo',
+                score_home: parseInt(score[0]),
+                score_away: parseInt(score[1]),
+                away: field[index] === '(C)' ? teams[index] : 'Flamengo'
             }
             lastGames.push(game)
         }
