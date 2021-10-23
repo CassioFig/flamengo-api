@@ -1,15 +1,25 @@
 import { ServiceCommand } from "../interfaces/Command";
 import puppeteer from 'puppeteer'
 import { LastGames } from "../interfaces/LastGames";
+import { WriteJson } from "../utils/WriteJson";
 
 export class GetLastGames implements ServiceCommand {
-    async execute(): Promise<LastGames[]> {
-        return await this.scrape().then((value) => {
+    async execute(): Promise<void> {
+        const writeJson = new WriteJson()
+
+        const lastGames = await this.scrape().then((value) => {
             return value
         })
+        
+        const data = {
+            "lastUpdate": new Date().toLocaleDateString(),
+            "games": lastGames
+        }
+
+        await writeJson.execute(data, "src/data/LastGames.json")
     }
 
-    scrape = async () => {
+    private scrape = async () => {
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
         await page.goto('https://www.flashscore.com.br/equipe/flamengo/WjxY29qB/resultados/')

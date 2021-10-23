@@ -1,7 +1,9 @@
 import express, { NextFunction, Request, Response } from "express"
 import cors from "cors"
 import { router } from "./routes"
+import { RunJobs } from "./services/RunJobs"
 
+const runJobs = new RunJobs()
 const app = express()
 
 app.use(cors())
@@ -9,6 +11,8 @@ app.use(cors())
 app.use(express.json())
 
 app.use(router)
+
+runJobs.execute()
 
 app.use((err: Error, request: Request, response: Response, next: NextFunction) => {
     if (err instanceof Error) {
