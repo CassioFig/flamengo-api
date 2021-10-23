@@ -1,12 +1,17 @@
 import { Request, Response } from "express";
 import { ControllerCommand } from "../interfaces";
-import { ReadJson } from "../utils";
+import { logger, ReadJson } from "../utils";
 
 export class GetNextGamesController implements ControllerCommand {
     async handle(request: Request, response: Response) {
-        const readJson = new ReadJson()
-        const lastGames = await readJson.execute("src/data/NextGames.json")
-
-        response.json(lastGames['games'])
+        logger.info("Endpoint running to list the next games.")
+        try {
+            const readJson = new ReadJson()
+            const lastGames = await readJson.execute("src/data/NextGames.json")
+            response.json(lastGames['games'])
+        } catch (error) {
+            logger.error(`Error in "GetNextGamesController": ${error}`)
+            response.status(500).send('Server error')
+        }
     }
 }
