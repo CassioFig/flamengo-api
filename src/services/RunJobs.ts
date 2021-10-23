@@ -1,6 +1,7 @@
-import { ServiceCommand } from "../interfaces/Command";
+import { ServiceCommand } from "../interfaces";
 import { GetLastGames } from "./GetLastGames.service";
 import { RecurrenceRule, scheduleJob } from 'node-schedule'
+import { GetNextGames } from ".";
 
 export class RunJobs implements ServiceCommand {
     async execute() {
@@ -13,9 +14,11 @@ export class RunJobs implements ServiceCommand {
         rule.second = 50
        
         const getLastGames = new GetLastGames()
+        const getNextGames = new GetNextGames()
 
         scheduleJob(rule, async () => {
             await getLastGames.execute()
+            await getNextGames.execute()
         })     
     }
 }

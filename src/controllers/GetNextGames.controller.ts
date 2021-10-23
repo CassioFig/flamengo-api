@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import { ControllerCommand } from "../interfaces";
+import { GetNextGames } from "../services";
 import { ReadJson } from "../utils";
 
-export class GetLastGamesController implements ControllerCommand {
+export class GetNextGamesController implements ControllerCommand {
     async handle(request: Request, response: Response) {
         const readJson = new ReadJson()
-        const lastGames = await readJson.execute("src/data/LastGames.json")
-        
-        return response.json(lastGames['games'])
+        const lastGames = await readJson.execute("src/data/NextGames.json")
+
+        response.json(lastGames)
     }
 }
