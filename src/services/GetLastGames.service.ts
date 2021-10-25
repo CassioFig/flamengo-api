@@ -43,7 +43,6 @@ export class GetLastGames implements ServiceCommand {
             })
         })
 
-        logger.info('Get teams')
         const teams = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td.text'), e => e.textContent)
             return array.filter((value, index) => {
@@ -53,12 +52,10 @@ export class GetLastGames implements ServiceCommand {
             })
         })
 
-        logger.info('Get results')
         const results = await page.evaluate(() => {
             return Array.from(document.querySelectorAll('tr.parent>td.result'), e => e.textContent)
         })
 
-        logger.info('Get fields')
         const fields = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td'), e => e.textContent)
             return array.filter((value, index) => {

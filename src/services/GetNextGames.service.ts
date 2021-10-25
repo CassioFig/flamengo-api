@@ -35,7 +35,6 @@ export class GetNextGames implements ServiceCommand {
         logger.info(`Accessing: ${url}`)
         await page.goto(url)
 
-        logger.info('Get competitions')
         const competitions = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td.text'), e => e.textContent)
             return array.filter((value, index) => {
@@ -45,7 +44,6 @@ export class GetNextGames implements ServiceCommand {
             })
         })
 
-        logger.info('Get teams')
         const teams = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td.text'), e => e.textContent)
             return array.filter((value, index) => {
@@ -55,7 +53,6 @@ export class GetNextGames implements ServiceCommand {
             })
         })
 
-        logger.info('Get dates')
         const dates = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td.double'), e => e.textContent)
             return array.filter((value, index) => {
@@ -65,7 +62,6 @@ export class GetNextGames implements ServiceCommand {
             })
         })
 
-        logger.info('Get times')
         const times = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td'), e => e.textContent)
             return array.filter((value) => {
@@ -75,7 +71,6 @@ export class GetNextGames implements ServiceCommand {
             })
         })
 
-        logger.info('Get fields')
         const field = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td'), e => e.textContent)
             return array.filter((value, index) => {
@@ -87,7 +82,6 @@ export class GetNextGames implements ServiceCommand {
             })
         })
 
-        logger.info('Get results')
         const result = await page.evaluate(() => {
             return Array.from(document.querySelectorAll('tr.parent>td.result'), e => e.textContent)
         })
