@@ -129,6 +129,36 @@
                     }
                 }
             } 
+        },
+        "/api/trophies": {
+            "get": {
+                "summary": "Listar títulos do Flamengo",
+                "description": "Função responsável por retornar todos os títulos do Flamengo.",
+                "tags": ["Time"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "competition": {
+                                            "type": "string"
+                                        },
+                                        "number": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            } 
         }
     }
 }
