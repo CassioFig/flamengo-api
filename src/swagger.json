@@ -88,6 +88,51 @@
                     }
                 }
             } 
+        },
+        "/players": {
+            "get": {
+                "summary": "Listar elenco",
+                "description": "Função responsável por retornar o elenco do Flamengo.",
+                "tags": ["Jogadores"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "goalkeepers": {
+                                            "type": "string"
+                                        },
+                                        "defenders": {
+                                            "type": "string"
+                                        },
+                                        "left_backs": {
+                                            "type": "string"
+                                        },
+                                        "right_backs": {
+                                            "type": "string"
+                                        },
+                                        "defensive_midfielders": {
+                                            "type": "string"
+                                        },
+                                        "midfielders": {
+                                            "type": "string"
+                                        },
+                                        "strikers": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            } 
         }
     }
 }

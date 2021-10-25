@@ -5,6 +5,7 @@ import { router } from "./routes"
 import { RunJobs } from "./services/RunJobs"
 import { logger } from './utils'
 import swaggerDocs from './swagger.json'
+require('dotenv').config()
 
 const runJobs = new RunJobs()
 const app = express()
@@ -13,7 +14,9 @@ app.use(cors())
 
 app.use(express.json())
 
-// app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+if (process.env.NODE_ENV === 'prod') {
+    app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+}
 app.use(router)
 
 logger.info('Running Jobs')
