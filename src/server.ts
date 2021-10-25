@@ -5,7 +5,6 @@ import { router } from "./routes"
 import { logger } from './utils'
 import swaggerDocs from './swagger.json'
 import mongoose from 'mongoose'
-import { RunJobs } from "./services/RunJobs"
 require('dotenv').config()
 
 const app = express()

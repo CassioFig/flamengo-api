@@ -8,7 +8,12 @@ export class GetNextGamesController implements ControllerCommand {
         logger.info("Endpoint running to list the next games.")
         try {
             const lastGames = await Data.findOne({ service: Services.GET_NEXT_GAMES})
-            response.json(lastGames.data['games'])
+
+            if (lastGames === null) {
+                response.status(200).json([])
+            } else {
+                response.json(lastGames.data['games'])
+            }
         } catch (error) {
             logger.error(`Error in "GetNextGamesController": ${error}`)
             response.status(500).send('Server error')

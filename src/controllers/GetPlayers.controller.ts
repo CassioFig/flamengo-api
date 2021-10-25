@@ -8,7 +8,12 @@ export class GetPlayersController implements ControllerCommand {
         logger.info("Endpoint running to list players.")
         try {
             const players = await Data.findOne({ service: Services.GET_PLAYERS })
-            response.json(players.data['players'])
+
+            if (players === null) {
+                response.status(200).json({})
+            } else {
+                response.json(players.data['players'])
+            }
         } catch (error) {
             logger.error(`Error in "GetPlayersController": ${error}`)
             response.status(500).send('Server error')

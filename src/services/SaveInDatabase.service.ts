@@ -2,14 +2,13 @@ import { ServiceCommand } from "../interfaces";
 import { Data } from "../schemas/Data";
 import mongoose from 'mongoose'
 import { logger } from "../utils";
-import { RunJobs } from "./RunJobs";
 require('dotenv').config()
 
 export class SaveInDatabase implements ServiceCommand {
     
     async execute(data: any, service: string): Promise<void> {
         mongoose.connect(process.env.MONGO_URL)
-                .then(() => { logger.info('MongoDB conectado com sucesso!')})
+                .then()
                 .catch((error) => { logger.error(`Erro na conexão do MongoDB: ${error}`) })
 
         const exist = await Data.findOne({ service: service })
@@ -30,6 +29,3 @@ export class SaveInDatabase implements ServiceCommand {
         }
     }
 }
-
-const runJobs = new RunJobs()
-runJobs.execute()

@@ -19,3 +19,6 @@ export class RunJobs implements ServiceCommand {
         logger.info('Run Jobs finished')
     }
 }
+
+const runJobs = new RunJobs()
+runJobs.execute()
