@@ -1,14 +1,14 @@
-import { ServiceCommand } from "../interfaces";
+import { ServiceCommand, Services } from "../interfaces";
 import puppeteer from 'puppeteer'
 import { Players } from "../interfaces/Players";
-import { logger, WriteJson } from "../utils";
-import players from '../data/Players.json'
+import { logger } from "../utils";
+import { SaveInDatabase } from ".";
 
 export class GetPlayers implements ServiceCommand {
     async execute(): Promise<void> {
         logger.info("Running function to list players.")
         try {
-            const writeJson = new WriteJson()
+            const saveInDatabse = new SaveInDatabase()
 
             logger.info('Starting scrap the page')
             const players = await this.scrape().then((value) => {
@@ -16,7 +16,6 @@ export class GetPlayers implements ServiceCommand {
             })
 
             const data = {
-                "lastUpdate": new Date().toLocaleDateString(),
                 "players": {
                     "goalkeepers": players.goalkeepers,
                     "defenders": players.defenders,
@@ -28,8 +27,8 @@ export class GetPlayers implements ServiceCommand {
                 }
             }
 
-            logger.info('Writing JSON')
-            await writeJson.execute(data, "src/data/Players.json")
+            logger.info('Saving data in MongoDB')
+            await saveInDatabse.execute(data, Services.GET_PLAYERS)
         } catch (error) {
             logger.error(`Error in "GetPlayers": ${error}`)
         }

@@ -1,27 +1,24 @@
-import { NextGames, ServiceCommand } from "../interfaces";
-import { logger, WriteJson } from "../utils";
+import { NextGames, ServiceCommand, Services } from "../interfaces";
+import { logger } from "../utils";
 import puppeteer from 'puppeteer'
-import nextGames from '../data/NextGames.json'
+import { SaveInDatabase } from ".";
 
 
 export class GetNextGames implements ServiceCommand {
     async execute(): Promise<void> {
         logger.info("Running function to list the next games.")
         try {
-            const writeJson = new WriteJson()
+            const saveInDatabse = new SaveInDatabase()
 
             logger.info('Starting scrap the page')
             const nextGames = await this.scrape().then((value) => {
                 return value
             })
 
-            const data = {
-                "lastUpdate": new Date().toLocaleDateString(),
-                "games": nextGames
-            }
+            const data = { "games": nextGames }
             
-            logger.info('Writing JSON')
-            await writeJson.execute(data, "src/data/NextGames.json")
+            logger.info('Saving data in MongoDB')
+            await saveInDatabse.execute(data, Services.GET_NEXT_GAMES)
         } catch (error) {
             logger.error(`Error in "GetNextGames": ${error}`)
         }
