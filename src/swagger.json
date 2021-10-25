@@ -5,13 +5,9 @@
         "description": "API que retorna informações sobre o Clube de Regatas do Flamengo.",
         "version": "1.0.0"
     },
-    "servers": [
-        {
-            "url": "https://flamengo-api.herokuapp.com/api"
-        }
-    ],
+    "basePath": "/",
     "paths": {
-        "/lastGames": {
+        "/api/lastGames": {
             "get": {
                 "summary": "Listar últimos jogos",
                 "description": "Função responsável por retornar os últimos 10 jogos do Flamengo.",
@@ -50,7 +46,7 @@
                 }
             } 
         },
-        "/nextGames": {
+        "/api/nextGames": {
             "get": {
                 "summary": "Listar próximos jogos",
                 "description": "Função responsável por retornar os 10 próximos jogos do Flamengo.",
@@ -89,7 +85,7 @@
                 }
             } 
         },
-        "/players": {
+        "/api/players": {
             "get": {
                 "summary": "Listar elenco",
                 "description": "Função responsável por retornar o elenco do Flamengo.",

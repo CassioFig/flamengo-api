@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express"
 import cors from "cors"
-import swaggerUi from 'swagger-ui-express'
+import swaggerUI from 'swagger-ui-express'
 import { router } from "./routes"
 import { RunJobs } from "./services/RunJobs"
 import { logger } from './utils'
@@ -14,10 +14,8 @@ app.use(cors())
 
 app.use(express.json())
 
-if (process.env.NODE_ENV === 'prod') {
-    app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
-}
 app.use(router)
+app.use('/api', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
 
 logger.info('Running Jobs')
 runJobs.execute()
