@@ -89,7 +89,7 @@ export class GetLastGames implements ServiceCommand {
 
             let game: LastGames = {
                 competition: competitions[index],
-                date: date.toLocaleDateString(),
+                date: date.toLocaleDateString('pt-BR'),
                 home: home,
                 score_home: parseInt(score[0]),
                 score_away: parseInt(score[1]),

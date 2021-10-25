@@ -16,14 +16,14 @@ export class SaveInDatabase implements ServiceCommand {
             await Data.updateOne(
                 { service: service },
                 {
-                    lastUpdate: new Date().toLocaleDateString(),
+                    lastUpdate: new Date().toLocaleDateString('pt-BR'),
                     data: data
                 }
             )
         } else {
             await Data.insertMany({
                 service: service,
-                lastUpdate: new Date().toLocaleDateString(),
+                lastUpdate: new Date().toLocaleDateString('pt-BR'),
                 data: data
             })
         }

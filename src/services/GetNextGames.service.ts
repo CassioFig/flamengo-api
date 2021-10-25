@@ -103,7 +103,7 @@ export class GetNextGames implements ServiceCommand {
                     competition: competitions[index],
                     home: home,
                     away: away,
-                    date: dates[index],
+                    date: new Date(dates[index]).toLocaleDateString('pt-BR'),
                     time: times[index]
                 }
 
