@@ -33,7 +33,7 @@ export class GetLastGames implements ServiceCommand {
 
         const dates = await page.evaluate(() => {
             return Array.from(document.querySelectorAll('tr.parent>td.double'), 
-            e => new Date(e.textContent).toLocaleDateString())
+            e => e.textContent)
         })
 
         const competitions = await page.evaluate(() => {
@@ -84,9 +84,12 @@ export class GetLastGames implements ServiceCommand {
                 home = 'Flamengo'
             }
 
+            const date = new Date(dates[index])
+            date.setDate(date.getDate() + 1)
+
             let game: LastGames = {
                 competition: competitions[index],
-                date: dates[index],
+                date: date.toLocaleDateString(),
                 home: home,
                 score_home: parseInt(score[0]),
                 score_away: parseInt(score[1]),
