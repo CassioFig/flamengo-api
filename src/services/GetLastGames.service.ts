@@ -33,7 +33,6 @@ export class GetLastGames implements ServiceCommand {
         logger.info(`Accessing: ${url}`)
         await page.goto(url)
 
-        logger.info('Get competitions')
         const competitions = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td.text'), e => e.textContent)
             return array.filter((value, index) => {
