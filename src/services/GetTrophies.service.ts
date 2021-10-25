@@ -24,7 +24,7 @@ export class GetTrophies implements ServiceCommand {
     }
 
     private scrape = async () => {
-        const browser = await puppeteer.launch({ args: ['--no-sandbox'] })
+        const browser = await puppeteer.launch({ args: ['--no-sandbox'], timeout: 0 },)
         const page = await browser.newPage()
 
         const url = "https://www.ogol.com.br/team_titles.php?id=2240"
