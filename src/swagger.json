@@ -23,6 +23,9 @@
                                         "competition": {
                                             "type": "string"
                                         },
+                                        "date": {
+                                            "type": "string"
+                                        },
                                         "home": {
                                             "type": "string"
                                         },

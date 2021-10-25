@@ -31,6 +31,11 @@ export class GetLastGames implements ServiceCommand {
         logger.info(`Accessing: ${url}`)
         await page.goto(url)
 
+        const dates = await page.evaluate(() => {
+            return Array.from(document.querySelectorAll('tr.parent>td.double'), 
+            e => new Date(e.textContent).toLocaleDateString())
+        })
+
         const competitions = await page.evaluate(() => {
             const array = Array.from(document.querySelectorAll('tr.parent>td.text'), e => e.textContent)
             return array.filter((value, index) => {
@@ -81,6 +86,7 @@ export class GetLastGames implements ServiceCommand {
 
             let game: LastGames = {
                 competition: competitions[index],
+                date: dates[index],
                 home: home,
                 score_home: parseInt(score[0]),
                 score_away: parseInt(score[1]),
