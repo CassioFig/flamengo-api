@@ -28,7 +28,7 @@ export class GetNextGames implements ServiceCommand {
     }
 
     private scrape = async () => {
-        const browser = await puppeteer.launch()
+        const browser = await puppeteer.launch({ args: ['--no-sandbox'] })
         const page = await browser.newPage()
 
         const url = 'https://www.ogol.com.br/team_fixtures.php?id=2240&epoca_id=150'
