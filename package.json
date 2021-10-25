@@ -21,9 +21,10 @@
   },
   "homepage": "https://github.com/CassioFig/flamengo-api#readme",
   "dependencies": {
-    "axios": "^0.21.1",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "mongoose": "^6.0.12",
     "pino": "^7.0.3",
     "pino-pretty": "^7.1.0",
     "puppeteer": "^10.2.0",
