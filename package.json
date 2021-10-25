@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
-    "prod": "node dist/server"
+    "prod": "node dist/server",
+    "jobs": "node dist/services/RunJobs"
   },
   "repository": {
     "type": "git",
@@ -22,9 +23,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "node-schedule": "^2.0.0",
     "pino": "^7.0.3",
     "pino-pretty": "^7.1.0",
     "puppeteer": "^10.2.0",
