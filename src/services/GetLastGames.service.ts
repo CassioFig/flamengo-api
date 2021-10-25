@@ -1,6 +1,7 @@
 import puppeteer from 'puppeteer'
 import { LastGames, ServiceCommand } from "../interfaces";
 import { logger, WriteJson } from "../utils";
+import lastGames from '../data/LastGames.json'
 
 export class GetLastGames implements ServiceCommand {
     async execute(): Promise<void> {

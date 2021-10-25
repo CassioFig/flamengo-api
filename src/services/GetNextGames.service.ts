@@ -1,6 +1,7 @@
 import { NextGames, ServiceCommand } from "../interfaces";
 import { logger, WriteJson } from "../utils";
 import puppeteer from 'puppeteer'
+import nextGames from '../data/NextGames.json'
 
 
 export class GetNextGames implements ServiceCommand {

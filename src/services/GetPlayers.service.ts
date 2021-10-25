@@ -2,6 +2,7 @@ import { ServiceCommand } from "../interfaces";
 import puppeteer from 'puppeteer'
 import { Players } from "../interfaces/Players";
 import { logger, WriteJson } from "../utils";
+import players from '../data/Players.json'
 
 export class GetPlayers implements ServiceCommand {
     async execute(): Promise<void> {
