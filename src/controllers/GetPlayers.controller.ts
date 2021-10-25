@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
-import { ControllerCommand } from "../interfaces";
-import { logger, ReadJson } from "../utils";
+import { ControllerCommand, Services } from "../interfaces";
+import { logger } from "../utils";
+import { Data } from '../schemas/Data'
 
 export class GetPlayersController implements ControllerCommand {
     async handle(request: Request, response: Response): Promise<void> {
         logger.info("Endpoint running to list players.")
         try {
-            const readJson = new ReadJson()
-            const players = await readJson.execute("src/data/Players.json")
-            response.json(players['players'])
+            const players = await Data.findOne({ service: Services.GET_PLAYERS })
+            response.json(players.data['players'])
         } catch (error) {
             logger.error(`Error in "GetPlayersController": ${error}`)
             response.status(500).send('Server error')

@@ -4,6 +4,9 @@ import swaggerUI from 'swagger-ui-express'
 import { router } from "./routes"
 import { logger } from './utils'
 import swaggerDocs from './swagger.json'
+import mongoose from 'mongoose'
+import { RunJobs } from "./services/RunJobs"
+require('dotenv').config()
 
 const app = express()
 
@@ -13,6 +16,10 @@ app.use(express.json())
 
 app.use(router)
 app.use('/api', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
+
+mongoose.connect(process.env.MONGO_URL)
+        .then(() => { logger.info('MongoDB conectado com sucesso!')})
+        .catch((error) => { logger.error(`Erro na conexão do MongoDB: ${error}`) })
 
 app.use((err: Error, request: Request, response: Response, next: NextFunction) => {
     if (err instanceof Error) {

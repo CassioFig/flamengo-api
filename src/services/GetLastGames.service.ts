@@ -1,26 +1,23 @@
 import puppeteer from 'puppeteer'
-import { LastGames, ServiceCommand } from "../interfaces";
-import { logger, WriteJson } from "../utils";
-import lastGames from '../data/LastGames.json'
+import { SaveInDatabase } from '.';
+import { LastGames, ServiceCommand, Services } from "../interfaces";
+import { logger } from "../utils";
 
 export class GetLastGames implements ServiceCommand {
     async execute(): Promise<void> {
         logger.info("Running function to list the last games.")
         try {
-            const writeJson = new WriteJson()
-            
+            const saveInDatabse = new SaveInDatabase()
+
             logger.info('Starting scrap the page')
             const lastGames = await this.scrape().then((value) => {
                 return value
             })
             
-            const data = {
-                "lastUpdate": new Date().toLocaleDateString(),
-                "games": lastGames
-            }
+            const data = { "games": lastGames }
 
-            logger.info('Writing JSON')
-            await writeJson.execute(data, "src/data/LastGames.json")
+            logger.info('Saving data in MongoDB')
+            await saveInDatabse.execute(data, Services.GET_LAST_GAMES)
         } catch (error) {
             logger.error(`Error in "GetLastGames": ${error}`)
         }
