@@ -15,10 +15,10 @@ export class RunJobs implements ServiceCommand {
             await getLastGames.execute()
             await getNextGames.execute()
             await getPlayers.execute()
+            logger.info('Run Jobs finished')
         } catch (error) {
             logger.error(`Error in "GetNextGames": ${error}`)
         }
-        logger.info('Run Jobs finished')
     }
 }
 

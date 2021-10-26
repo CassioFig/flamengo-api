@@ -5,6 +5,8 @@ import { router } from "./routes"
 import { logger } from './utils'
 import swaggerDocs from './swagger.json'
 import mongoose from 'mongoose'
+import https from 'https'
+
 require('dotenv').config()
 
 const app = express()
@@ -15,6 +17,11 @@ app.use(express.json())
 
 app.use(router)
 app.use('/api', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
+
+setInterval(() => {
+    logger.info('Ping API')
+    https.get('https://flamengo-api.herokuapp.com/')
+}, 600000)
 
 mongoose.connect(process.env.MONGO_URL)
         .then(() => { logger.info('MongoDB conectado com sucesso!')})
