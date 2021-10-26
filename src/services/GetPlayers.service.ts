@@ -67,8 +67,8 @@ export class GetPlayers implements ServiceCommand {
         const team: Players = {
             goalkeepers: players[0],
             defenders: players[1],
-            left_backs: players[2],
-            right_backs: players[3],
+            right_backs: players[2],
+            left_backs: players[3],
             defensive_midfielders: players[4],
             midfielders: players[5],
             strikers: players[6]
